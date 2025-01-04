@@ -23,22 +23,22 @@ public class SimpleRobot extends ArenaItem {
         gc.setFill(Color.BLUE);
         gc.fillOval(x - radius, y - radius, radius * 2, radius * 2);  // Draw circle body
 
-        // Draw the wheels (one on left and one on right)
+        // Draw the wheels (one on top and one on bottom)
         double wheelLength = 20; // Length of the wheel
 
-        // Left wheel (just to the left of the circle, exactly at x - radius)
-        double wheelXLeft = x - radius; // Positioning the left wheel (touching the circle)
-        double wheelYLeft = y;
+        // Top wheel (just above the circle, exactly at y - radius)
+        double wheelXTop = x;
+        double wheelYTop = y - radius; // Positioning the top wheel (touching the circle)
 
-        // Right wheel (just to the right of the circle, exactly at x + radius)
-        double wheelXRight = x + radius; // Positioning the right wheel (touching the circle)
-        double wheelYRight = y;
+        // Bottom wheel (just below the circle, exactly at y + radius)
+        double wheelXBottom = x;
+        double wheelYBottom = y + radius; // Positioning the bottom wheel (touching the circle)
 
         // Draw wheels as thick lines (parallel to each other)
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(5);
-        gc.strokeLine(wheelXLeft, wheelYLeft - wheelLength / 2, wheelXLeft, wheelYLeft + wheelLength / 2);  // Left wheel
-        gc.strokeLine(wheelXRight, wheelYRight - wheelLength / 2, wheelXRight, wheelYRight + wheelLength / 2);  // Right wheel
+        gc.strokeLine(wheelXTop - wheelLength / 2, wheelYTop, wheelXTop + wheelLength / 2, wheelYTop);  // Top wheel
+        gc.strokeLine(wheelXBottom - wheelLength / 2, wheelYBottom, wheelXBottom + wheelLength / 2, wheelYBottom);  // Bottom wheel
     }
 
 

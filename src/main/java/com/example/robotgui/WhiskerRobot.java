@@ -11,7 +11,26 @@ public class WhiskerRobot extends SimpleRobot {
 
     @Override
     public void showItem(GraphicsContext gc) {
-        super.showItem(gc);  // Draw the body and wheels from SimpleRobot
+        // Draw the robot's body (circle)
+        gc.setFill(Color.BLUE);
+        gc.fillOval(x - radius, y - radius, radius * 2, radius * 2);  // Draw circle body
+
+        // Draw the wheels (one on left and one on right)
+        double wheelLength = 20; // Length of the wheel
+
+        // Left wheel (just to the left of the circle, exactly at x - radius)
+        double wheelXLeft = x - radius; // Positioning the left wheel (touching the circle)
+        double wheelYLeft = y;
+
+        // Right wheel (just to the right of the circle, exactly at x + radius)
+        double wheelXRight = x + radius; // Positioning the right wheel (touching the circle)
+        double wheelYRight = y;
+
+        // Draw wheels as thick lines (parallel to each other)
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(5);
+        gc.strokeLine(wheelXLeft, wheelYLeft - wheelLength / 2, wheelXLeft, wheelYLeft + wheelLength / 2);  // Left wheel
+        gc.strokeLine(wheelXRight, wheelYRight - wheelLength / 2, wheelXRight, wheelYRight + wheelLength / 2);  // Right wheel
 
         // Draw whiskers (lines at ±22.5 degrees from the robot's facing angle)
         double whiskerLength = radius * 2;

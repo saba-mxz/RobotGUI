@@ -28,12 +28,15 @@ public class RobotGUI extends Application {
         canvas = new Canvas(800, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
+        // Create robots and obstacle
         SimpleRobot robot1 = new SimpleRobot(100, 100, 20, 0, 2);
-        Robot robot2 = new Robot(50, 50, 2, 2); // Example initialization
+        Robot robot2 = new Robot(50, 50, 2, 2);
         WhiskerRobot whiskerRobot = new WhiskerRobot(300, 100, 20, 90, 2);
+        BeamSensorRobot beamSensorRobot = new BeamSensorRobot(200, 200, 2);
         arena.addItem(robot1);
         arena.addItem(robot2);
         arena.addItem(whiskerRobot);
+        arena.addItem(beamSensorRobot);
         Obstacle obstacle = new Obstacle(400, 300);
         arena.addItem(obstacle);
 
@@ -43,21 +46,22 @@ public class RobotGUI extends Application {
         MenuItem loadConfig = new MenuItem("Load Configuration");
         MenuItem saveConfig = new MenuItem("Save Configuration");
         fileMenu.getItems().addAll(loadConfig, saveConfig);
-        Menu simulationMenu = new Menu("Simulation");
-        MenuItem startSim = new MenuItem("Start");
-        MenuItem pauseSim = new MenuItem("Pause");
-        simulationMenu.getItems().addAll(startSim, pauseSim);
+
+        // Move start and pause buttons directly into the menu bar
+        MenuItem startButton = new MenuItem("Start");
+        MenuItem pauseButton = new MenuItem("Pause");
+        fileMenu.getItems().addAll(startButton, pauseButton);
+
         Menu helpMenu = new Menu("Help");
         MenuItem instructions = new MenuItem("Instructions");
         helpMenu.getItems().add(instructions);
-        menuBar.getMenus().addAll(fileMenu, simulationMenu, helpMenu);
+
+        menuBar.getMenus().addAll(fileMenu, helpMenu);
 
         // Create toolbar
         ToolBar toolBar = new ToolBar();
-        Button startButton = new Button("Start");
-        Button pauseButton = new Button("Pause");
         Button addRobotButton = new Button("Add Robot");
-        toolBar.getItems().addAll(startButton, pauseButton, addRobotButton);
+        toolBar.getItems().addAll(addRobotButton);
 
         // Create information panel
         VBox infoPanel = new VBox();
@@ -85,6 +89,8 @@ public class RobotGUI extends Application {
                         ((SimpleRobot) item).move(arena);
                     } else if (item instanceof Robot) {
                         ((Robot) item).move(arena);
+                    } else if (item instanceof BeamSensorRobot) {
+                        ((BeamSensorRobot) item).move(arena);
                     }
                 }
 
@@ -94,6 +100,7 @@ public class RobotGUI extends Application {
             }
         };
 
+        // Set button actions
         startButton.setOnAction(e -> timer.start());
         pauseButton.setOnAction(e -> timer.stop());
         addRobotButton.setOnAction(e -> {
