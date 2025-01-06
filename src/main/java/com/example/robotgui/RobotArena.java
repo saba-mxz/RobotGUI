@@ -13,6 +13,10 @@ public class RobotArena {
         items.add(item);
     }
 
+    public void removeItem(ArenaItem item) {
+        items.remove(item);
+    }
+
     public ArrayList<ArenaItem> getItems() {
         return items;
     }

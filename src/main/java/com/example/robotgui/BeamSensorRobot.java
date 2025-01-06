@@ -59,4 +59,20 @@ public class BeamSensorRobot extends ArenaItem {
     public double calcY(double speed, double angle) {
         return y + speed * Math.sin(Math.toRadians(angle));
     }
+
+    @Override
+    public boolean contains(double x, double y) {
+        double distance = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
+        return distance <= radius;
+    }
+
+    @Override
+    public double getAngle() {
+        return angle;
+    }
+
+    @Override
+    public double getSpeed() {
+        return speed;
+    }
 }

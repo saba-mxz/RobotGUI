@@ -3,8 +3,9 @@ package com.example.robotgui;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class ArenaItem {
-    protected double x, y;  // Position of the item
-    protected double radius;  // Size of the item
+    protected double x;
+    protected double y;
+    protected double radius;
 
     public ArenaItem(double x, double y, double radius) {
         this.x = x;
@@ -12,15 +13,41 @@ public abstract class ArenaItem {
         this.radius = radius;
     }
 
-    public abstract void showItem(GraphicsContext gc);  // Abstract method to draw the item
-
-    // Calculate the new X position based on speed and angle
-    public double calcX(double speed, double angle) {
-        return x + speed * Math.cos(Math.toRadians(angle));
+    // Getter and Setter methods for x, y, and radius
+    public double getX() {
+        return x;
     }
 
-    // Calculate the new Y position based on speed and angle
-    public double calcY(double speed, double angle) {
-        return y + speed * Math.sin(Math.toRadians(angle));
+    public void setX(double x) {
+        this.x = x;
     }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    // Abstract method to be implemented by subclasses for drawing
+    public abstract void showItem(GraphicsContext gc);
+
+    // Abstract method to be implemented by subclasses for moving
+    public abstract void move(RobotArena arena);
+
+    // Abstract method to check if the item contains a point (for selection)
+    public abstract boolean contains(double x, double y);
+
+    // Abstract methods for angle and speed
+    public abstract double getAngle();
+    public abstract double getSpeed();
 }

@@ -14,11 +14,14 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 
 public class RobotGUI extends Application {
     private RobotArena arena;
     private Canvas canvas;
     private DrawArena drawer;
+    private ArenaItem selectedItem;
+    private Label infoLabel;
 
     @Override
     public void start(Stage stage) {
@@ -38,6 +41,8 @@ public class RobotGUI extends Application {
         arena.addItem(whiskerRobot);
         arena.addItem(beamSensorRobot);
         Obstacle obstacle = new Obstacle(400, 300);
+        Obstacle obstacle2 = new Obstacle(700, 170);
+        arena.addItem(obstacle2);
         arena.addItem(obstacle);
 
         // Create menu bar
@@ -61,20 +66,25 @@ public class RobotGUI extends Application {
         // Create toolbar
         ToolBar toolBar = new ToolBar();
         Button addRobotButton = new Button("Add Robot");
-        toolBar.getItems().addAll(addRobotButton);
+        Button addDangerRobotButton = new Button("Add Danger Robot");
+        Button addWhiskerRobotButton = new Button("Add Whisker Robot");
+        Button selectItemButton = new Button("Select Item");
+        Button deleteItemButton = new Button("Delete Item");
+        toolBar.getItems().addAll(addRobotButton, addDangerRobotButton, addWhiskerRobotButton, selectItemButton, deleteItemButton);
 
         // Create information panel
         VBox infoPanel = new VBox();
-        Label infoLabel = new Label("Arena Information:");
+        infoPanel.setStyle("-fx-background-color: lightgray;"); // Set background color for visibility
+        infoLabel = new Label("Arena Information:");
         infoPanel.getChildren().add(infoLabel);
 
         BorderPane root = new BorderPane();
-        root.setTop(menuBar);
+        VBox topContainer = new VBox(menuBar, toolBar); // Combine menu bar and toolbar
+        root.setTop(topContainer); // Set the combined container to the top
         root.setCenter(canvas);
-        root.setBottom(toolBar);
-        root.setRight(infoPanel);
+        root.setRight(infoPanel); // Set the info panel to the right
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1000, 600); // Increase scene width to ensure space for info panel
         stage.setTitle("Robot Simulation");
         stage.setScene(scene);
         stage.show();
@@ -97,6 +107,9 @@ public class RobotGUI extends Application {
                 // Clear canvas and draw arena items
                 gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 drawer.drawArena(arena, gc);
+
+                // Update information panel
+                updateInfoPanel();
             }
         };
 
@@ -104,11 +117,54 @@ public class RobotGUI extends Application {
         startButton.setOnAction(e -> timer.start());
         pauseButton.setOnAction(e -> timer.stop());
         addRobotButton.setOnAction(e -> {
-            SimpleRobot newRobot = new SimpleRobot(200, 200, 20, 0, 2);
+            SimpleRobot newRobot = new SimpleRobot(200, 400, 20, 0, 2);
             arena.addItem(newRobot);
+        });
+        addDangerRobotButton.setOnAction(e -> {
+            DangerRobot dangerRobot = new DangerRobot(400, 400, 20, 0, 2);
+            arena.addItem(dangerRobot);
+        });
+        addWhiskerRobotButton.setOnAction(e -> {
+            WhiskerRobot whiskerRobot2 = new WhiskerRobot(600, 500, 20, 90, 2);
+            arena.addItem(whiskerRobot2);
+        });
+        selectItemButton.setOnAction(e -> {
+            canvas.setOnMouseClicked(this::handleSelectItem);
+        });
+        deleteItemButton.setOnAction(e -> {
+            if (selectedItem != null) {
+                arena.removeItem(selectedItem);
+                selectedItem = null;
+            }
         });
 
         timer.start();
+    }
+
+    private void handleSelectItem(MouseEvent event) {
+        double clickX = event.getX();
+        double clickY = event.getY();
+        for (ArenaItem item : arena.getItems()) {
+            if (item.contains(clickX, clickY)) {
+                selectedItem = item;
+                break;
+            }
+        }
+        updateInfoPanel(); // Update the info panel when an item is selected
+    }
+
+    private void updateInfoPanel() {
+        if (selectedItem != null) {
+            String info = String.format("Selected Item:\nType: %s\nX: %.2f\nY: %.2f\nAngle: %.2f\nSpeed: %.2f",
+                    selectedItem.getClass().getSimpleName(),
+                    selectedItem.getX(),
+                    selectedItem.getY(),
+                    selectedItem.getAngle(),
+                    selectedItem.getSpeed());
+            infoLabel.setText(info);
+        } else {
+            infoLabel.setText("Arena Information:");
+        }
     }
 
     public static void main(String[] args) {
