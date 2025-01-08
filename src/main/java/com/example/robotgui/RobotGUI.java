@@ -15,6 +15,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import java.io.File;
+import java.io.IOException;
 
 public class RobotGUI extends Application {
     private RobotArena arena;
@@ -68,9 +71,10 @@ public class RobotGUI extends Application {
         Button addRobotButton = new Button("Add Robot");
         Button addDangerRobotButton = new Button("Add Danger Robot");
         Button addWhiskerRobotButton = new Button("Add Whisker Robot");
+        Button addBeamSensorRobotButton = new Button("Add Beam Sensor Robot");
         Button selectItemButton = new Button("Select Item");
         Button deleteItemButton = new Button("Delete Item");
-        toolBar.getItems().addAll(addRobotButton, addDangerRobotButton, addWhiskerRobotButton, selectItemButton, deleteItemButton);
+        toolBar.getItems().addAll(addRobotButton, addDangerRobotButton, addWhiskerRobotButton, addBeamSensorRobotButton, selectItemButton, deleteItemButton);
 
         // Create information panel
         VBox infoPanel = new VBox();
@@ -128,6 +132,10 @@ public class RobotGUI extends Application {
             WhiskerRobot whiskerRobot2 = new WhiskerRobot(600, 500, 20, 90, 2);
             arena.addItem(whiskerRobot2);
         });
+        addBeamSensorRobotButton.setOnAction(e -> {
+            BeamSensorRobot beamSensorRobot2 = new BeamSensorRobot(550, 300, 2);
+            arena.addItem(beamSensorRobot2);
+        });
         selectItemButton.setOnAction(e -> {
             canvas.setOnMouseClicked(this::handleSelectItem);
         });
@@ -135,6 +143,37 @@ public class RobotGUI extends Application {
             if (selectedItem != null) {
                 arena.removeItem(selectedItem);
                 selectedItem = null;
+            }
+        });
+
+        // Save configuration action
+        saveConfig.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Configuration");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arena Files", "*.arena"));
+            File file = fileChooser.showSaveDialog(stage);
+            if (file != null) {
+                try {
+                    arena.saveToFile(file.getAbsolutePath());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        // Load configuration action
+        loadConfig.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Load Configuration");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arena Files", "*.arena"));
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                try {
+                    arena = RobotArena.loadFromFile(file.getAbsolutePath());
+                    updateInfoPanel(); // Update the info panel after loading
+                } catch (IOException | ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 

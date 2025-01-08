@@ -1,11 +1,18 @@
 package com.example.robotgui;
 
 import javafx.scene.canvas.GraphicsContext;
+import java.io.Serializable;
 
-public abstract class ArenaItem {
+public abstract class ArenaItem implements Serializable {
     protected double x;
     protected double y;
     protected double radius;
+
+    public ArenaItem() {
+        this.x = 0;
+        this.y = 0;
+        this.radius = 0;
+    }
 
     public ArenaItem(double x, double y, double radius) {
         this.x = x;

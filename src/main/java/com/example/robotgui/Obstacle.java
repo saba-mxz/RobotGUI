@@ -1,8 +1,13 @@
 package com.example.robotgui;
 
 import javafx.scene.canvas.GraphicsContext;
+import java.io.Serializable;
 
-public class Obstacle extends ArenaItem {
+public class Obstacle extends ArenaItem implements Serializable {
+
+    public Obstacle() {
+        super();
+    }
 
     public Obstacle(double x, double y) {
         super(x, y, 25); // Assuming obstacle is a square with radius 25 for collision check

@@ -2,10 +2,17 @@ package com.example.robotgui;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.io.Serializable;
 
-public class SimpleRobot extends ArenaItem {
+public class SimpleRobot extends ArenaItem implements Serializable {
     protected double angle;  // Angle the robot is facing
     private double speed;  // Speed of the robot
+
+    public SimpleRobot() {
+        super(0, 0, 0);
+        this.angle = 0;
+        this.speed = 0;
+    }
 
     public SimpleRobot(double x, double y, double radius, double angle, double speed) {
         super(x, y, radius);
@@ -68,6 +75,7 @@ public class SimpleRobot extends ArenaItem {
     protected double calcY(double speed, double angle) {
         return getY() + speed * Math.sin(Math.toRadians(angle));
     }
+
     // Implement the contains method to check if a point (px, py) is inside the robot's radius
     @Override
     public boolean contains(double px, double py) {

@@ -5,12 +5,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Stop;
+import java.io.Serializable;
 import java.util.Random;
 
-public class BeamSensorRobot extends ArenaItem {
+public class BeamSensorRobot extends ArenaItem implements Serializable {
     private double speed;
     private double angle;
     private Random random;
+
+    public BeamSensorRobot() {
+        super();
+        this.speed = 0;
+        this.angle = 0;
+        this.random = new Random();
+    }
 
     public BeamSensorRobot(double x, double y, double speed) {
         super(x, y, 15); // Assuming robot is a circle with radius 15 for collision check

@@ -2,10 +2,16 @@ package com.example.robotgui;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.io.Serializable;
 import java.util.Random;
 
-public class DangerRobot extends SimpleRobot {
+public class DangerRobot extends SimpleRobot implements Serializable {
     private Random random;
+
+    public DangerRobot() {
+        super();
+        this.random = new Random();
+    }
 
     public DangerRobot(double x, double y, double radius, double angle, double speed) {
         super(x, y, radius, angle, speed * 2); // Double the speed

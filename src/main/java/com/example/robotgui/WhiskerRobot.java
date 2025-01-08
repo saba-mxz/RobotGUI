@@ -2,8 +2,13 @@ package com.example.robotgui;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import java.io.Serializable;
 
-public class WhiskerRobot extends SimpleRobot {
+public class WhiskerRobot extends SimpleRobot implements Serializable {
+
+    public WhiskerRobot() {
+        super();
+    }
 
     public WhiskerRobot(double x, double y, double radius, double angle, double speed) {
         super(x, y, radius, angle, speed);

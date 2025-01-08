@@ -1,9 +1,16 @@
 package com.example.robotgui;
 
 import javafx.scene.canvas.GraphicsContext;
+import java.io.Serializable;
 
-public class Robot extends ArenaItem {
+public class Robot extends ArenaItem implements Serializable {
     private double speedX, speedY;
+
+    public Robot() {
+        super(0, 0, 0);
+        this.speedX = 0;
+        this.speedY = 0;
+    }
 
     public Robot(double x, double y, double speedX, double speedY) {
         super(x, y, 15); // Assuming robot is a circle with radius 15 for collision check
