@@ -31,25 +31,25 @@ public class RobotGUI extends Application {
         arena = new RobotArena();
         drawer = new DrawArena();
 
-        canvas = new Canvas(800, 700);
+        canvas = new Canvas(800, 600);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Create robots and obstacle
         SimpleRobot robot1 = new SimpleRobot(100, 100, 20, 0, 2);
         Robot robot2 = new Robot(50, 50, 2, 2);
         WhiskerRobot whiskerRobot = new WhiskerRobot(300, 100, 20, 90, 2);
-        BeamSensorRobot beamSensorRobot = new BeamSensorRobot(200, 200, 1.5);
+        BeamSensorRobot beamSensorRobot = new BeamSensorRobot(200, 200, 2);
         // Create lights
-        Light light1 = new Light(100, 300); // Stationary light
-        Light light2 = new Light(700, 400); // Stationary light
+        Light light1 = new Light(400, 250); // Stationary light
+        Light light2 = new Light(650, 400); // Stationary light
         arena.addItem(light1);
         arena.addItem(light2);
         arena.addItem(robot1);
         arena.addItem(robot2);
         arena.addItem(whiskerRobot);
         arena.addItem(beamSensorRobot);
-        Obstacle obstacle = new Obstacle(400, 300);
-        Obstacle obstacle2 = new Obstacle(700, 170);
+        Obstacle obstacle = new Obstacle(100, 400);
+        Obstacle obstacle2 = new Obstacle(700, 150);
         arena.addItem(obstacle2);
         arena.addItem(obstacle);
 
@@ -193,12 +193,24 @@ public class RobotGUI extends Application {
 
     private void updateInfoPanel() {
         if (selectedItem != null) {
-            String info = String.format("Selected Item:\nType: %s\nX: %.2f\nY: %.2f\nAngle: %.2f\nSpeed: %.2f",
+            int health = 0;
+            if (selectedItem instanceof SimpleRobot) {
+                health = ((SimpleRobot) selectedItem).getHealth();
+            } else if (selectedItem instanceof WhiskerRobot) {
+                health = ((WhiskerRobot) selectedItem).getHealth();
+            } else if (selectedItem instanceof BeamSensorRobot) {
+                health = ((BeamSensorRobot) selectedItem).getHealth();
+            } else if (selectedItem instanceof Robot) {
+                health = ((Robot) selectedItem).getHealth();
+            }
+
+            String info = String.format("Selected Item:\nType: %s\nX: %.2f\nY: %.2f\nAngle: %.2f\nSpeed: %.2f\nHealth: %d",
                     selectedItem.getClass().getSimpleName(),
                     selectedItem.getX(),
                     selectedItem.getY(),
                     selectedItem.getAngle(),
-                    selectedItem.getSpeed());
+                    selectedItem.getSpeed(),
+                    health);
             infoLabel.setText(info);
         } else {
             infoLabel.setText("Arena Information:");

@@ -9,12 +9,14 @@ public class BeamSensorRobot extends ArenaItem implements Serializable {
     private double speed;
     private double angle;
     private Random random;
+    private int health;  // Health of the robot
 
     public BeamSensorRobot() {
         super();
         this.speed = 0;
         this.angle = 0;
         this.random = new Random();
+        this.health = 100;  // Initialize health
     }
 
     public BeamSensorRobot(double x, double y, double speed) {
@@ -22,6 +24,18 @@ public class BeamSensorRobot extends ArenaItem implements Serializable {
         this.speed = speed;
         this.angle = 0;
         this.random = new Random();
+        this.health = 100;  // Initialize health
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void reduceHealth(int amount) {
+        this.health -= amount;
+        if (this.health < 0) {
+            this.health = 0;
+        }
     }
 
     @Override
@@ -45,21 +59,10 @@ public class BeamSensorRobot extends ArenaItem implements Serializable {
         double newX = calcX(speed, angle);
         double newY = calcY(speed, angle);
 
-        // Calculate beam end points
-        double beamLength = radius * 2;
-        double beamX = newX + beamLength * Math.cos(Math.toRadians(angle));
-        double beamY = newY + beamLength * Math.sin(Math.toRadians(angle));
-
-        // Check if the beam end points are within the arena boundaries and not colliding with obstacles
-        if (arena.canMove(beamX, beamY, radius, this) && arena.canMove(newX, newY, radius, this)) {
-            // Additional check for bottom boundary
-            if (newY + radius <= 700) { // Assuming canvas height is 600
-                x = newX;
-                y = newY;
-            } else {
-                // Change direction randomly if hitting the bottom boundary
-                angle = random.nextInt(360);
-            }
+        // Check if the new position is valid (no collisions, within bounds)
+        if (arena.canMove(newX, newY, radius, this)) {
+            x = newX;
+            y = newY;
         } else {
             // Change direction randomly if collision occurs
             angle = random.nextInt(360);

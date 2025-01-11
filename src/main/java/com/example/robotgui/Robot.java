@@ -5,37 +5,47 @@ import java.io.Serializable;
 
 public class Robot extends ArenaItem implements Serializable {
     private double speedX, speedY;
+    private int health;  // Health of the robot
 
     public Robot() {
         super(0, 0, 0);
         this.speedX = 0;
         this.speedY = 0;
+        this.health = 100;  // Initialize health
     }
 
     public Robot(double x, double y, double speedX, double speedY) {
         super(x, y, 15); // Assuming robot is a circle with radius 15 for collision check
         this.speedX = speedX;
         this.speedY = speedY;
+        this.health = 100;  // Initialize health
     }
 
-    // Getter for speedX
     public double getSpeedX() {
         return speedX;
     }
 
-    // Setter for speedX
     public void setSpeedX(double speedX) {
         this.speedX = speedX;
     }
 
-    // Getter for speedY
     public double getSpeedY() {
         return speedY;
     }
 
-    // Setter for speedY
     public void setSpeedY(double speedY) {
         this.speedY = speedY;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void reduceHealth(int amount) {
+        this.health -= amount;
+        if (this.health < 0) {
+            this.health = 0;
+        }
     }
 
     @Override

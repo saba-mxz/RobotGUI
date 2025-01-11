@@ -7,17 +7,20 @@ import java.io.Serializable;
 public class SimpleRobot extends ArenaItem implements Serializable {
     protected double angle;  // Angle the robot is facing
     private double speed;  // Speed of the robot
+    private int health;  // Health of the robot
 
     public SimpleRobot() {
         super(0, 0, 0);
         this.angle = 0;
         this.speed = 0;
+        this.health = 100;  // Initialize health
     }
 
     public SimpleRobot(double x, double y, double radius, double angle, double speed) {
         super(x, y, radius);
         this.angle = angle;
         this.speed = speed;
+        this.health = 100;  // Initialize health
     }
 
     public double getSpeed() {
@@ -26,6 +29,17 @@ public class SimpleRobot extends ArenaItem implements Serializable {
 
     public double getAngle() {
         return angle;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void reduceHealth(int amount) {
+        this.health -= amount;
+        if (this.health < 0) {
+            this.health = 0;
+        }
     }
 
     @Override

@@ -37,16 +37,15 @@ public class RobotArena implements Serializable {
             if (item != movingItem) { // Skip self-collision
                 double distance = Math.sqrt(Math.pow(newX - item.x, 2) + Math.pow(newY - item.y, 2));
                 if (distance < radius + item.radius) {
-                    return false;
-                }
-            }
-        }
-
-        // Check if the position is too close to the light
-        for (ArenaItem item : items) {
-            if (item instanceof Light) {
-                double distance = Math.sqrt(Math.pow(newX - item.x, 2) + Math.pow(newY - item.y, 2));
-                if (distance < radius + item.radius * 3) { // Avoid the light's reflection area
+                    if (movingItem instanceof SimpleRobot && (item instanceof DangerRobot || item instanceof Obstacle)) {
+                        ((SimpleRobot) movingItem).reduceHealth(5); // Reduce health by 5
+                    } else if (movingItem instanceof WhiskerRobot && (item instanceof DangerRobot || item instanceof Obstacle)) {
+                        ((WhiskerRobot) movingItem).reduceHealth(5); // Reduce health by 5
+                    } else if (movingItem instanceof BeamSensorRobot && (item instanceof DangerRobot || item instanceof Obstacle)) {
+                        ((BeamSensorRobot) movingItem).reduceHealth(5); // Reduce health by 5
+                    } else if (movingItem instanceof Robot && (item instanceof DangerRobot || item instanceof Obstacle)) {
+                        ((Robot) movingItem).reduceHealth(5); // Reduce health by 5
+                    }
                     return false;
                 }
             }
