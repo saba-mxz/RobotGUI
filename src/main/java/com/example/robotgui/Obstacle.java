@@ -1,6 +1,10 @@
 package com.example.robotgui;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.Stop;
 import java.io.Serializable;
 
 public class Obstacle extends ArenaItem implements Serializable {
@@ -10,14 +14,32 @@ public class Obstacle extends ArenaItem implements Serializable {
     }
 
     public Obstacle(double x, double y) {
-        super(x, y, 25); // Assuming obstacle is a square with radius 25 for collision check
+        super(x, y, 15); // Assuming obstacle is a circle with radius 15 for collision check
     }
 
     @Override
     public void showItem(GraphicsContext gc) {
-        // Drawing the obstacle (simplified)
-        gc.setFill(javafx.scene.paint.Color.RED); // Color of the obstacle
-        gc.fillRect(x - radius, y - radius, radius * 2, radius * 2); // Draw as a square obstacle
+        // Drawing the fire (using gradient and shapes)
+        LinearGradient gradient = new LinearGradient(
+                0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
+                new Stop(0, Color.RED),
+                new Stop(1, Color.ORANGE)
+        );
+        gc.setFill(gradient);
+        gc.fillOval(x - radius, y - radius, radius * 2, radius * 2); // Draw as a circle
+
+        // Add some flame shapes
+        gc.setFill(Color.DARKORANGE);
+        gc.fillPolygon(
+                new double[]{x, x - radius / 2, x + radius / 2},
+                new double[]{y - radius, y + radius / 2, y + radius / 2},
+                3
+        );
+        gc.fillPolygon(
+                new double[]{x, x - radius / 3, x + radius / 3},
+                new double[]{y - radius / 2, y + radius / 3, y + radius / 3},
+                3
+        );
     }
 
     @Override

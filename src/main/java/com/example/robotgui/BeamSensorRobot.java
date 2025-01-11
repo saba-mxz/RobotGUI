@@ -2,9 +2,6 @@ package com.example.robotgui;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.Stop;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -29,29 +26,40 @@ public class BeamSensorRobot extends ArenaItem implements Serializable {
 
     @Override
     public void showItem(GraphicsContext gc) {
-        // Draw the yellow light reflection (radial gradient)
-        RadialGradient gradient = new RadialGradient(
-                0, 0, x, y, radius * 3, false, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.YELLOW.deriveColor(1, 1, 1, 0.5)),
-                new Stop(1, Color.TRANSPARENT)
-        );
-        gc.setFill(gradient);
-        gc.fillOval(x - radius * 3, y - radius * 3, radius * 6, radius * 6);
-
         // Draw the robot's body (black circle)
         gc.setFill(Color.BLACK);
         double diameter = radius * 2;
-        gc.fillOval(x - radius, y - radius, diameter, diameter);  // Draw the robot as a circle
+        gc.fillOval(x - radius, y - radius, diameter, diameter);
+
+        // Draw the sensor beam (green sector)
+        gc.setFill(Color.TEAL);
+        double beamAngle = 45; // Angle of the beam in degrees
+        double beamRadius = radius * 2; // The beam's length can be adjusted
+        gc.fillArc(
+                x - beamRadius, y - beamRadius, beamRadius * 2, beamRadius * 2,
+                -angle - beamAngle / 2, beamAngle, javafx.scene.shape.ArcType.ROUND
+        );
     }
 
     public void move(RobotArena arena) {
         double newX = calcX(speed, angle);
         double newY = calcY(speed, angle);
 
-        // Check if the new position is valid (no collisions, within bounds)
-        if (arena.canMove(newX, newY, radius, this)) {
-            x = newX;
-            y = newY;
+        // Calculate beam end points
+        double beamLength = radius * 2;
+        double beamX = newX + beamLength * Math.cos(Math.toRadians(angle));
+        double beamY = newY + beamLength * Math.sin(Math.toRadians(angle));
+
+        // Check if the beam end points are within the arena boundaries and not colliding with obstacles
+        if (arena.canMove(beamX, beamY, radius, this) && arena.canMove(newX, newY, radius, this)) {
+            // Additional check for bottom boundary
+            if (newY + radius <= 700) { // Assuming canvas height is 600
+                x = newX;
+                y = newY;
+            } else {
+                // Change direction randomly if hitting the bottom boundary
+                angle = random.nextInt(360);
+            }
         } else {
             // Change direction randomly if collision occurs
             angle = random.nextInt(360);

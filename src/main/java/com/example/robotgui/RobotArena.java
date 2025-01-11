@@ -25,9 +25,10 @@ public class RobotArena implements Serializable {
 
     public boolean canMove(double newX, double newY, double radius, ArenaItem movingItem) {
         double whiskerLength = radius * 2; // Assuming whisker length is twice the radius
+        double margin = 20; // Increase margin to keep robots away from the bottom boundary
 
-        // Check boundaries considering whisker length
-        if (newX - whiskerLength < 0 || newX + whiskerLength > 800 || newY - whiskerLength < 0 || newY + whiskerLength > 600) {
+        // Check boundaries considering whisker length and margin
+        if (newX - whiskerLength < 0 || newX + whiskerLength > 800 || newY - whiskerLength < 0 || newY + whiskerLength > 600 - margin) {
             return false;
         }
 
@@ -36,6 +37,16 @@ public class RobotArena implements Serializable {
             if (item != movingItem) { // Skip self-collision
                 double distance = Math.sqrt(Math.pow(newX - item.x, 2) + Math.pow(newY - item.y, 2));
                 if (distance < radius + item.radius) {
+                    return false;
+                }
+            }
+        }
+
+        // Check if the position is too close to the light
+        for (ArenaItem item : items) {
+            if (item instanceof Light) {
+                double distance = Math.sqrt(Math.pow(newX - item.x, 2) + Math.pow(newY - item.y, 2));
+                if (distance < radius + item.radius * 3) { // Avoid the light's reflection area
                     return false;
                 }
             }

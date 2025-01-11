@@ -31,14 +31,19 @@ public class RobotGUI extends Application {
         arena = new RobotArena();
         drawer = new DrawArena();
 
-        canvas = new Canvas(800, 600);
+        canvas = new Canvas(800, 700);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Create robots and obstacle
         SimpleRobot robot1 = new SimpleRobot(100, 100, 20, 0, 2);
         Robot robot2 = new Robot(50, 50, 2, 2);
         WhiskerRobot whiskerRobot = new WhiskerRobot(300, 100, 20, 90, 2);
-        BeamSensorRobot beamSensorRobot = new BeamSensorRobot(200, 200, 2);
+        BeamSensorRobot beamSensorRobot = new BeamSensorRobot(200, 200, 1.5);
+        // Create lights
+        Light light1 = new Light(100, 300); // Stationary light
+        Light light2 = new Light(700, 400); // Stationary light
+        arena.addItem(light1);
+        arena.addItem(light2);
         arena.addItem(robot1);
         arena.addItem(robot2);
         arena.addItem(whiskerRobot);
@@ -99,13 +104,7 @@ public class RobotGUI extends Application {
             public void handle(long now) {
                 // Move the robots, passing the arena to check for collisions
                 for (ArenaItem item : arena.getItems()) {
-                    if (item instanceof SimpleRobot) {
-                        ((SimpleRobot) item).move(arena);
-                    } else if (item instanceof Robot) {
-                        ((Robot) item).move(arena);
-                    } else if (item instanceof BeamSensorRobot) {
-                        ((BeamSensorRobot) item).move(arena);
-                    }
+                    item.move(arena);
                 }
 
                 // Clear canvas and draw arena items
