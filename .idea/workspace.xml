@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c26e5c0-6958-4f52-8e94-b5d1edcab496" name="Changes" comment="changes with beam sensor robot and obstacles">
+    <list default="true" id="0c26e5c0-6958-4f52-8e94-b5d1edcab496" name="Changes" comment="changes with health monitoring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/robotgui/BeamSensorRobot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/robotgui/BeamSensorRobot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/robotgui/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/robotgui/Robot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/robotgui/RobotArena.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/robotgui/RobotArena.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/robotgui/RobotGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/robotgui/RobotGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/robotgui/SimpleRobot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/robotgui/SimpleRobot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736611781883</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="changes with health monitoring">
+      <option name="closed" value="true" />
+      <created>1736621558015</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736621558015</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,6 +220,7 @@
     <MESSAGE value="changes with the info panel" />
     <MESSAGE value="changes with load/save now working" />
     <MESSAGE value="changes with beam sensor robot and obstacles" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes with beam sensor robot and obstacles" />
+    <MESSAGE value="changes with health monitoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes with health monitoring" />
   </component>
 </project>

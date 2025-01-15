@@ -55,12 +55,21 @@ public class BeamSensorRobot extends ArenaItem implements Serializable {
         );
     }
 
+    @Override
     public void move(RobotArena arena) {
         double newX = calcX(speed, angle);
         double newY = calcY(speed, angle);
 
-        // Check if the new position is valid (no collisions, within bounds)
-        if (arena.canMove(newX, newY, radius, this)) {
+        // Calculate beam positions with an added margin
+        double margin = 10; // Adjust this value to increase the gap
+        double beamLength = radius * 2 + margin;
+        double beamX1 = newX + beamLength * Math.cos(Math.toRadians(angle + 22.5));
+        double beamY1 = newY + beamLength * Math.sin(Math.toRadians(angle + 22.5));
+        double beamX2 = newX + beamLength * Math.cos(Math.toRadians(angle - 22.5));
+        double beamY2 = newY + beamLength * Math.sin(Math.toRadians(angle - 22.5));
+
+        // Check if the beam positions are within the arena boundaries
+        if (arena.canMove(beamX1, beamY1, radius, this) && arena.canMove(beamX2, beamY2, radius, this)) {
             x = newX;
             y = newY;
         } else {

@@ -5,12 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -18,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class RobotGUI extends Application {
     private RobotArena arena;
@@ -65,11 +62,18 @@ public class RobotGUI extends Application {
         MenuItem pauseButton = new MenuItem("Pause");
         fileMenu.getItems().addAll(startButton, pauseButton);
 
+        //Instruction button into menu bar
         Menu helpMenu = new Menu("Help");
         MenuItem instructions = new MenuItem("Instructions");
         helpMenu.getItems().add(instructions);
 
-        menuBar.getMenus().addAll(fileMenu, helpMenu);
+
+        // About menu
+        Menu aboutMenu = new Menu("About");
+        MenuItem aboutItem = new MenuItem("About");
+        aboutMenu.getItems().add(aboutItem);
+
+        menuBar.getMenus().addAll(fileMenu, helpMenu, aboutMenu);
 
         // Create toolbar
         ToolBar toolBar = new ToolBar();
@@ -175,6 +179,33 @@ public class RobotGUI extends Application {
                 }
             }
         });
+
+        // Instructions action
+        instructions.setOnAction(e -> {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Instructions");
+            alert.setHeaderText("How to Use the Robot Simulation GUI");
+            alert.setContentText("1. Use the toolbar to add different types of robots to the arena.\n"
+                    + "2. Select an item by clicking 'Select Item' and then clicking on the item in the arena.\n"
+                    + "3. Delete a selected item using the 'Delete Item' button.\n"
+                    + "4. Start and pause the simulation using the 'Start' and 'Pause' buttons under the 'File' menu option.\n"
+                    + "5. Save and load arena configurations using the 'File' menu options.\n"
+                    + "6. View information about selected items in the info panel on the right, under 'Arena Information'.");
+            alert.showAndWait();
+        });
+
+        aboutMenu.setOnAction(e -> {
+            Alert alert2 = new Alert(AlertType.INFORMATION);
+            alert2.setTitle("About");
+            alert2.setHeaderText("Student Number: 32009516");
+            alert2.setContentText("This RobotGUI features various robots moving in an arena. SimpleRobots move left and right or diagonally, " +
+                    " with ‘bump’ sensors that change direction upon contact with the canvas edge, another robot, or obstacle. The WhiskerRobot has a" +
+                    " larger sensor that changes direction before colliding with another robot. The BeamSensorRobot moves randomly and changes direction" +
+                    " when its beam senses another robot or obstacle. The DangerRobot moves twice as fast and reduces the health of any robot or fire it" +
+                    " encounters by 5. You can add or delete robots using the toolbar buttons. Selecting a robot reveals its health, direction, or coordinates." +
+                    " Pausing helps select a robot or obstacle for information. Have fun!");
+            alert2.showAndWait();
+                });
 
         timer.start();
     }
